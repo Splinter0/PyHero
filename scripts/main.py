@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import socket, urllib2, threading, extra, commands, time, os, subprocess
+import urllib2, threading, extra, commands, time, os, subprocess
 from subprocess import call
 
-def main():
+def main(): ##MAIN FUNCTION
     extra.logo()
     call(["clear"])
     passwd = check()
@@ -105,7 +105,7 @@ def launch(command, passwd):
     else :
         print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Wrong command\r\n")
         valid = False
-    if valid == True:
+    if valid == True: ##LAUNCH THE COMMAND
         try :
             urllib2.urlopen(df+par1+"/"+par2+p1+passwd+p2+opt)
             time.sleep(0.5)
@@ -113,11 +113,11 @@ def launch(command, passwd):
         except :
             print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Error launching the command\r\n")
 
-def connLost():
+def connLost():  #IF THE CONNECTION IS LOST
     print("\r\n\r\n[" + extra.colors.red + "-" + extra.colors.end + "] Connection error!\r\n")
     os._exit(1)
 
-def keepConn():
+def keepConn():  #CHECK IF THE CONNETION IS STABLE
     st = 0
     while True:
         kl = subprocess.call("ping -c 1 10.5.5.9", shell=True, stdout=open('/dev/null', 'w'), stderr=subprocess.STDOUT)
@@ -131,8 +131,7 @@ def keepConn():
         else:
             continue
 
-
-def timer():
+def timer():  #A TIMER
     global p
     secs = 0
     while secs != 7 and p == False:
@@ -141,12 +140,12 @@ def timer():
     if p == False:
         raise notConnected()
 
-def check():
+def check():  #CONNECT TO THE GOPRO
     f = open("passwd.txt", "r")
-    pas = str(f.read()).strip("\n")
+    pas = str(f.read()).strip("\n") #LOAD THE PASSWORD
     f.close()
     while True:
-        if pas != "":
+        if pas != "":  #SEE IF THE USER WANTS TO USE HIS OLD PASSWORD OF IF HE WANTS TO CHANGE IT
             use = str(raw_input("["+extra.colors.cyan+"*"+extra.colors.end+"] Found a password from logs: "+extra.colors.yellow+pas+extra.colors.end+". Use this password? [Y/N] : "))
             if use == "Y" or use== "y":
                 break
@@ -158,17 +157,17 @@ def check():
                 break
             else:
                 continue
-        else:
+        else:  #IF THERE'S NO PASSWORD CREATE A NEW ONE
             pas = str(raw_input("[" + extra.colors.cyan + "*" + extra.colors.end + "] Enter the password to connect to your GoPro : "))
             f = open("passwd.txt", "w")
             f.write(pas)
             f.close()
             break
     print("\r\n["+extra.colors.yellow+".."+extra.colors.end+"] Checking if you are connected to a GoPro")
-    try:
+    try: #TRY TO CONNECT TO THE GOPRO
         global p
         p = False
-        tm = threading.Thread(target=timer)
+        tm = threading.Thread(target=timer) #START THE TIME
         tm.start()
         urllib2.urlopen("http://10.5.5.9/bacpac/PW?t=" + pas + "&p=%01")
         p = True
@@ -176,19 +175,19 @@ def check():
         print("\r\n["+extra.colors.green+"+"+extra.colors.end+"] Yay, you are now connected to your GoPro. Dropping the shell...\r\n")
         time.sleep(0.5)
         return(pas)
-    except urllib2.HTTPError:
+    except urllib2.HTTPError: #IF CONNECTION IS FAILED
         notConnected()
     except :
         notConnected()
 
-def notConnected():
+def notConnected(): #THE GOPRO ISN'T CONNECTED
     print("\r\n[" + extra.colors.red + "-" + extra.colors.end + "] Check your connection or your password for the GoPro and come back!\r\n")
     os._exit(1)
 
-if __name__=="__main__":
+if __name__=="__main__":  #LAUNCH THE PROGRAM
     try:
         main()
-    except KeyboardInterrupt :
+    except KeyboardInterrupt :  #KEYBOARD INTERRUPTION PREVENTION
         print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Quitting ...\r\n")
         time.sleep(1)
         call(["clear"])

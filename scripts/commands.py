@@ -18,6 +18,8 @@ def exit():
             break
 
 def help():
+    #DEFINIGN HELP FUNCTION WITH ALL COMMANDS
+
     commands = {0:"on - Turn on your camera",1:"off - Turn off your camera",2:"shoot - Emulation of the shoot button(start video, take pic, ecc..",\
                 3:"stop_rec - Stop recording",4:"no_leds - Turn off all the leds on your camera",5:"preview_on - Turn preview mode on",6:"preview_off - Turn preview mode off",\
                 7:"video - Put your camera in video mode",8:"photo - Put your camera in photo mode",9:"brust - Put your camera in brust mode",10:"timelapse - Put your camera in timelapse mode",\
@@ -27,6 +29,7 @@ def help():
                 21:"protune_on - Turn the protune mode on",22:"protune_off - Turn the protune mode off", 23:"2_leds - Switch 2 leds on", 24:"4_leds - Switch 4 leds on",\
                 25:"autopoweroff \"option\" - Set autopoweroff (options: nev = never, 60s, 120s, 300s)"}
 
+    #DEFINIGN SPECIAL COMMANDS
     special_cmds = {0:"stealth_mode - Your GoPro becomes invisble (all leds off, mute on and wide FOV)",1:"stealth_mode_off - Turn stealth mode off",2:"shoot&get - Take a picture and download it"}
     print("\r\n\t| "+extra.colors.yellow+"All PyHero Commands :"+extra.colors.end+" |")
     print("\t ----------------------")
@@ -68,7 +71,7 @@ def no_leds(): #SHUT THE CAMERA'S LED DOWN
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Turning the leds off")
     return (par1, par2, opt)
 
-def prev_on():
+def prev_on(): #PREVIEW ON
     global par1
     par1 = "camera"
     par2 = "PV"
@@ -76,7 +79,7 @@ def prev_on():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Turning preview on")
     return (par1, par2, opt)
 
-def prev_off():
+def prev_off():  #PREVIEW OFF
     global par1
     par1 = "camera"
     par2 = "PV"
@@ -84,7 +87,7 @@ def prev_off():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Turning preview off")
     return (par1, par2, opt)
 
-def video_mode():
+def video_mode():  #VIDEO MODE
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -92,7 +95,7 @@ def video_mode():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing to video mode")
     return (par1, par2, opt)
 
-def photo_mode():
+def photo_mode():  #PHOTO MODE
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -100,7 +103,7 @@ def photo_mode():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing to photo mode")
     return (par1, par2, opt)
 
-def brust_mode():
+def brust_mode():  #BRUST MODE
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -108,7 +111,7 @@ def brust_mode():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing to brust mode")
     return (par1, par2, opt)
 
-def timelapse_mode():
+def timelapse_mode():  #TIMELAPSE MODE
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -116,7 +119,7 @@ def timelapse_mode():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing to timelapse mode")
     return (par1, par2, opt)
 
-def timer_mode():
+def timer_mode():  #TIMER MODE
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -124,7 +127,7 @@ def timer_mode():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing to timer mode")
     return (par1, par2, opt)
 
-def play_hdmi():
+def play_hdmi():  #PLAY ON HDMI (IF CONNECTED)
     global par1
     par1 = "camera"
     par2 = "CM"
@@ -132,7 +135,7 @@ def play_hdmi():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Playing on HDMI port")
     return (par1, par2, opt)
 
-def or_up():
+def or_up():  #ORIENTATION UP
     global par1
     par1 = "camera"
     par2 = "UP"
@@ -140,7 +143,7 @@ def or_up():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Moving the orientation up")
     return (par1, par2, opt)
 
-def or_down():
+def or_down():  #ORIENTATION DOWN
     global par1
     par1 = "camera"
     par2 = "UP"
@@ -148,7 +151,7 @@ def or_down():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Moving the orientation down")
     return (par1, par2, opt)
 
-def fov_wide():
+def fov_wide():  #WIDE FOV
     global par1
     par1 = "camera"
     par2 = "FV"
@@ -156,7 +159,7 @@ def fov_wide():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing the FOV to wide mode")
     return (par1, par2, opt)
 
-def fov_med():
+def fov_med():  #MEDIUM FOV
     global par1
     par1 = "camera"
     par2 = "FV"
@@ -164,7 +167,7 @@ def fov_med():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing the FOV to medium mode")
     return (par1, par2, opt)
 
-def fov_nar():
+def fov_nar():  #NARROW FOV
     global par1
     par1 = "camera"
     par2 = "FV"
@@ -172,7 +175,7 @@ def fov_nar():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing the FOV to narrow mode")
     return (par1, par2, opt)
 
-def no_vol():
+def no_vol():  #NO VOLUME(MUTE)
     global par1
     par1 = "camera"
     par2 = "BS"
@@ -180,7 +183,7 @@ def no_vol():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing volume to mute")
     return (par1, par2, opt)
 
-def vol_70():
+def vol_70(): #VOLUME 70%
     global par1
     par1 = "camera"
     par2 = "BS"
@@ -188,7 +191,7 @@ def vol_70():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing volume to 70%")
     return (par1, par2, opt)
 
-def vol_100():
+def vol_100():  #VOLUME 100%
     global par1
     par1 = "camera"
     par2 = "BS"
@@ -196,7 +199,7 @@ def vol_100():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Changing volume to 100%")
     return (par1, par2, opt)
 
-def pro_on():
+def pro_on():   #PROTUNE ON
     global par1
     par1 = "camera"
     par2 = "PT"
@@ -204,7 +207,7 @@ def pro_on():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Putting protune on")
     return (par1, par2, opt)
 
-def pro_off():
+def pro_off():  #PROTUNE OFF
     global par1
     par1 = "camera"
     par2 = "PT"
@@ -212,7 +215,7 @@ def pro_off():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Putting protune off")
     return (par1, par2, opt)
 
-def leds2():
+def leds2():  #2 LEDS ON
     global par1
     par1 = "camera"
     par2 = "LB"
@@ -220,7 +223,7 @@ def leds2():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Switching to 2 leds on")
     return (par1, par2, opt)
 
-def leds4():
+def leds4():  #4 LEDS ON
     global par1
     par1 = "camera"
     par2 = "LB"
@@ -228,7 +231,7 @@ def leds4():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Switching to 4 leds on")
     return (par1, par2, opt)
 
-def autoN():
+def autoN():  #AUTO POWER OFF: NEVER
     global par1
     par1 = "camera"
     par2 = "AO"
@@ -236,7 +239,7 @@ def autoN():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Setting auto power off to never")
     return (par1, par2, opt)
 
-def auto60():
+def auto60():   #AUTO POWER OFF: 60s
     global par1
     par1 = "camera"
     par2 = "AO"
@@ -244,7 +247,7 @@ def auto60():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Setting auto power off to 60s")
     return (par1, par2, opt)
 
-def auto120():
+def auto120():  #AUTO POWER OFF: 120s
     global par1
     par1 = "camera"
     par2 = "AO"
@@ -252,7 +255,7 @@ def auto120():
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Setting auto power off to 120s")
     return (par1, par2, opt)
 
-def auto300():
+def auto300():  #AUTO POWER OFF: 300s
     global par1
     par1 = "camera"
     par2 = "AO"
@@ -334,5 +337,4 @@ def getLast(passwd):
     except :
         pass
 
-def info(passwd):
-    pass
+#TODO : ADD INFO() FUNCTION TO GET ALL INFORMATIONS ABOUT THE GOPRO AND ADD DELALL() THAT DELETE ALL FILES ON GOPRO

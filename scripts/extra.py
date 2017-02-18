@@ -11,14 +11,14 @@ class colors: #DEFINIGN SOME COLORS
     end = '\033[0m'
 
 
-def logo():
+def logo():  ## PyHero logo
     print(colors.green+"   ___                            ")
     print("  / _ \_   _  /\  /\___ _ __ ___  ")
     print(" / /_)/ | | |/ /_/ / _ \ '__/ _ \ ")
     print("/ ___/| |_| / __  /  __/ | | (_) |")
     print("\/     \__, \/ /_/ \___|_|  \___/ ")
-    print("       |___/                      "+colors.end+"By : "+colors.green+"\033[1;45mSplinter"+colors.end+"\r\n")
+    print("       |___/                      "+colors.end+"By : "+colors.green+"Splinter"+colors.end+"\r\n")
     print("["+colors.cyan+"*"+colors.end+"] Welcome to PyHero, a python program to control your GoPro HERO from command line!")
     print("\tThis program has tons of default GoPro commands that you can use, but it also has "+colors.green+"special"+colors.end+"\n\tcommands to control your camera better!")
-    print("\t"+colors.cyan+"Github Page : "+colors.end+"\r\n")
+    print("\t"+colors.cyan+"Github Page : "+colors.end+"https://github.com/Splinter0/PyHero/\r\n")
     raw_input("[PRESS ENTER]")
