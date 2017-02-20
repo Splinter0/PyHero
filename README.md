@@ -12,9 +12,8 @@ through commands you can make your GoPro do whatever you want.
 <img src="http://i64.tinypic.com/2whjz1c.png" height="auto" width="60%">
 
 ## Special commands :
-In addition to the normal commands of the GoPro, you can launch special PyHero commands
-such as :
-1. stealth_mode
+In addition to the normal commands of the GoPro, you can launch special PyHero commands such as :
+1. stealth_mode 
 2. stealth_mode_off
 3. shoot&get
 #### and many more soon!
@@ -24,3 +23,6 @@ PyHero is OpenSource and you can use all its functions in your own program!
 
 ## Soon:
 Soon there will be more special commands and the program will also support GoPro HERO5 and GoPro Karma!
+
+## Thanks to :
+<a href="https://github.com/KonradIT">KonradIT</a>
