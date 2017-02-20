@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-import urllib2, extra, time, os, urllib2, re, urllib, subprocess
+import urllib2, extra, time, os, re, urllib, subprocess
 from subprocess import call
-
+import json
 global par1
 par1 = "bacpac"
 
@@ -316,21 +316,23 @@ def getLast(passwd):
     urllib2.urlopen(df + par1 + "/" + par2 + p1 + passwd + p2 + opt)
     time.sleep(2)
 
-    url = "http://10.5.5.9:8080/gp/gpMediaList" #FIND THE PICTURE USING SOME REGEX
+    url = "http://10.5.5.9/gp/gpMediaList" #FIND THE PICTURE USING SOME REGEX
     content = urllib2.urlopen(url).read()
     content = str(content)
-    content2 = content.split("},")
-    last = content2[-1]
-    last = re.findall('[A-Z+][0-9+]*', last)
-    last = ''.join(last)
-    last = re.sub(r'(JP)', r'.JP', last)
-
+    folder=""
+    lastfile=""
+    parsed_resp = json.loads(content)
+    for key in parsed_resp['media']:
+        folder=key['d']
+    for key in parsed_resp['media']:
+        for key2 in key['fs']:
+            lastfile=key2['n']
     time.sleep(1)
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Downloading the pic")
-    dow = "http://10.5.5.9:8080/DCIM/103GOPRO/" + last #DOWNLOAD THE PIC AND SAVE IT TO output/
+    dow = "http://10.5.5.9:8080/videos/DCIM/" + folder +"/" + lastfile #DOWNLOAD THE PIC AND SAVE IT TO output/
     getFoto = urllib.URLopener()
-    getFoto.retrieve("http://10.5.5.9:8080/DCIM/103GOPRO/" + last, "outputs/" + last)
-    print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Picture saved in outputs/"+last+"\r\n")
+    getFoto.retrieve("http://10.5.5.9:8080/videos/DCIM/" + folder +"/" + lastfile, "outputs/" + lastfile)
+    print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Picture saved in outputs/"+lastfile+"\r\n")
     try :
         time.sleep(2)
         process = subprocess.Popen("eog -f outputs/"+last, shell=True, stdout=subprocess.PIPE)
