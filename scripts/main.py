@@ -155,47 +155,48 @@ def connect():
         -SECOND LAUNCHES THE detect() FUNCTION TO FIND WHAT TYPE OF GOPRO YOU'RE USING
         -THIRD IF THE CAMERA IS AN HERO3/3+/2 MEANS THAT IT NEEDS A PASSWORD OTHERWISE CHECK IF THE CAMERA
             IS A GOPRO4 Session AND IF IT IS THE PROGRAM HAS TO LAUNCH THE wake() FUNCTION IN ORDER TO INTERACT WITH IT"""
-
+    global close
+    close = False
     print("[" + extra.colors.yellow + ".." + extra.colors.end + "] Checking if you are connected to a GoPro")
     time.sleep(0.5)
-    conn = subprocess.call("ping -c 1 "+heroIp, shell=True, stdout=open('/dev/null', 'w'), stderr=subprocess.STDOUT)
-    if conn == 0:
-        print("\r\n[" + extra.colors.cyan + "*" + extra.colors.end + "] You are connected to a GoPro\r\n")
-        camera, passReq = detect()
-        if passReq == True:
-            pass
-        else :
-            global mac
-            mac = getMac()
-            if camera == "HERO4 Session":
-                wake(camera)
-            else : pass
-            print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Dropping the shell...\r\n")
-            return(passReq, camera)
-        while True :
-            print("[" + extra.colors.yellow + ".." + extra.colors.end + "] Gathering the password")
-            time.sleep(0.5)
-            try :
-                passwd = urllib2.urlopen("http://10.5.5.9/bacpac/sd").read()
-                passwd = str(passwd.encode("utf-8"))
-                passwd = re.sub(r'\W+', '', passwd)
-                print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Yay, you are now connected to your GoPro. Dropping the shell...\r\n")
-                return(passwd, camera)
-            except :
-                print("\r\n[" + extra.colors.red + "-" + extra.colors.end + "] An error incurred while trying to get the password\r\n")
-                again = str(raw_input("[" + extra.colors.cyan + "*" + extra.colors.end + "] Do you want to try again? [Y/N] : "))
-                if again == "Y" or again== "y":
-                    subprocess.call(["clear"])
-                    continue
-                elif again == "N" or again == "n":
-                    print("\r\n[" + extra.colors.cyan + "*" + extra.colors.end + "] Bye ;)")
-                    time.sleep(1)
-                    subprocess.call(["clear"])
-                    os._exit(1)
-                    break
+    tm = threading.Thread(target=timer)
+    tm.start()  ## START THE TIMER
+    urllib2.urlopen("http://10.5.5.9:8080/")
+    close = True
+    time.sleep(0.5)
+    print("\r\n[" + extra.colors.cyan + "*" + extra.colors.end + "] You are connected to a GoPro\r\n")
+    camera, passReq = detect()
+    if passReq == True:
+        pass
     else :
-        notConnected()
-
+        global mac
+        mac = getMac()
+        if camera == "HERO4 Session":
+            wake(camera)
+        else : pass
+        print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Dropping the shell...\r\n")
+        return(passReq, camera)
+    while True :
+        print("[" + extra.colors.yellow + ".." + extra.colors.end + "] Gathering the password")
+        time.sleep(0.5)
+        try :
+            passwd = urllib2.urlopen("http://10.5.5.9/bacpac/sd").read()
+            passwd = str(passwd.encode("utf-8"))
+            passwd = re.sub(r'\W+', '', passwd)
+            print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Yay, you are now connected to your GoPro. Dropping the shell...\r\n")
+            return(passwd, camera)
+        except :
+            print("\r\n[" + extra.colors.red + "-" + extra.colors.end + "] An error incurred while trying to get the password\r\n")
+            again = str(raw_input("[" + extra.colors.cyan + "*" + extra.colors.end + "] Do you want to try again? [Y/N] : "))
+            if again == "Y" or again== "y":
+                subprocess.call(["clear"])
+                continue
+            elif again == "N" or again == "n":
+                print("\r\n[" + extra.colors.cyan + "*" + extra.colors.end + "] Bye ;)")
+                time.sleep(1)
+                subprocess.call(["clear"])
+                os._exit(1)
+                break
 
 def detect():
 
@@ -292,10 +293,13 @@ def checkConn():  #CHECK IF THE CONNETION IS STABLE
         IF THE CONNECTION IS STILL ALIVE INSTEAD OF DIRECTLY INTERRUPT THE PROGRAM.
         IT ALSO CALLED WHEN THE COMMAND TAKES AN UNEXPECTED TIME TO RESPOND"""
 
-    while True:
-        kl = subprocess.call("ping -c 1 10.5.5.9", shell=True, stdout=open('/dev/null', 'w'), stderr=subprocess.STDOUT)
-        if kl == 0: break
-        else: connLost()
+    while True :
+        tm = threading.Thread(target=timer)
+        tm.start()  ## START THE TIMER
+        urllib2.urlopen("http://10.5.5.9:8080/")
+        close = True
+        time.sleep(0.5)
+        break
 
 def timer():  #A TIMER
 
@@ -307,7 +311,7 @@ def timer():  #A TIMER
         time.sleep(1)
         secs += 1
     if close == False:
-        raise checkConn()
+        raise notConnected()
 
 def notConnected(): #THE GOPRO ISN'T CONNECTED
     print("\r\n[" + extra.colors.red + "-" + extra.colors.end + "] Check your connection with the GoPro and come back!\r\n")
