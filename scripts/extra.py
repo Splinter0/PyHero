@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+"""STUFF"""
+
 class colors: #DEFINIGN SOME COLORS
     black = "\033[90m"
     red = "\033[31m"

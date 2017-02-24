@@ -1,24 +1,29 @@
 #!/usr/bin/env python
-import urllib2, extra, time, os, urllib2, re, urllib, subprocess
-from subprocess import call
+import urllib2, extra, time, os, urllib, subprocess, json
+from main import wake
+
+
+""" THIS IS WHERE ALL THE COMMAND ARE STORED """
+
 
 global par1
 par1 = "bacpac"
 
-def exit():
+def bye():
     while True:
         sure = str(raw_input("\r\n[" + extra.colors.cyan + "*" + extra.colors.end + "] Are you sure you wanna quit? [Y/N] : "))
         if sure == "Y" or sure == "y":
             print("\r\n["+extra.colors.cyan+"*"+extra.colors.end+"] Bye ;)")
             time.sleep(1)
-            call(["clear"])
+            subprocess.call(["clear"])
             os._exit(1)
         elif sure == "N" or sure == "n":
             print("")
             break
 
 def help():
-    #DEFINIGN HELP FUNCTION WITH ALL COMMANDS
+
+    """DEFINING ALL COMMANS FOR HELP FUNCTION"""
 
     commands = {0:"on - Turn on your camera",1:"off - Turn off your camera",2:"shoot - Emulation of the shoot button(start video, take pic, ecc..",\
                 3:"stop_rec - Stop recording",4:"no_leds - Turn off all the leds on your camera",5:"preview_on - Turn preview mode on",6:"preview_off - Turn preview mode off",\
@@ -41,17 +46,35 @@ def help():
         print("\t| " + special_cmds[super_command])
     print("\r\n")
 
-def on(): #TURN ON THE GOPRO
-    par2= "PW"
-    opt = "01"
-    print("\n\r["+extra.colors.yellow+".."+extra.colors.end+"] Turning the GoPro on")
-    return(par1, par2, opt)
 
-def off(): #TURN OFF THE GOPRO
-    par2 = "PW"
-    opt = "00"
+""" HERE IS WHERE ALL THE WIRELESS COMMANDS ARE STORED, ALL THE IF STATEMENTS YOU SEE ARE
+    USED IN ORDER TO CHANGE THE CONTENT OF THE COMMAND BASED ON THE CAMERA """
+
+def on(passwd, camera): #TURN ON THE GOPRO
+    print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Turning the GoPro on")
+    if not passwd :
+        if camera == "HERO4 Session":
+            return("http://10.5.5.9/gp/gpControl/setting/10/1", False, False)
+        else :
+            wake(camera)
+            print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Command executed successfully ;)\r\n")
+            return(False, False, False)
+    else :
+        par2= "PW"
+        opt = "01"
+        return(par1, par2, opt)
+
+def off(passwd, camera): #TURN OFF THE GOPRO
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Turning the GoPro off")
-    return (par1, par2, opt)
+    if not passwd :
+        if camera == "HERO4 Session":
+            return("http://10.5.5.9/gp/gpControl/setting/10/0", False, False)
+        else :
+            return("http://10.5.5.9/gp/gpControl/command/system/sleep", False, False)
+    else :
+        par2 = "PW"
+        opt = "00"
+        return (par1, par2, opt)
 
 def shut(): #START RECORDING/TAKING PHOTO ecc..
     par2 = "SH"
@@ -319,21 +342,23 @@ def getLast(passwd):
     url = "http://10.5.5.9:8080/gp/gpMediaList" #FIND THE PICTURE USING SOME REGEX
     content = urllib2.urlopen(url).read()
     content = str(content)
-    content2 = content.split("},")
-    last = content2[-1]
-    last = re.findall('[A-Z+][0-9+]*', last)
-    last = ''.join(last)
-    last = re.sub(r'(JP)', r'.JP', last)
-
+    folder=""
+    lastfile=""
+    parsed_resp = json.loads(content)
+    for key in parsed_resp['media']:
+        folder=key['d']
+    for key in parsed_resp['media']:
+        for key2 in key['fs']:
+            lastfile=key2['n']
     time.sleep(1)
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Downloading the pic")
-    dow = "http://10.5.5.9:8080/DCIM/103GOPRO/" + last #DOWNLOAD THE PIC AND SAVE IT TO output/
+    dow = "http://10.5.5.9:8080/videos/DCIM/" + folder +"/" + lastfile #DOWNLOAD THE PIC AND SAVE IT TO output/
     getFoto = urllib.URLopener()
-    getFoto.retrieve("http://10.5.5.9:8080/DCIM/103GOPRO/" + last, "outputs/" + last)
-    print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Picture saved in outputs/"+last+"\r\n")
+    getFoto.retrieve("http://10.5.5.9:8080/videos/DCIM/" + folder +"/" + lastfile, "outputs/" + lastfile)
+    print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Picture saved in outputs/"+lastfile+"\r\n")
     try :
         time.sleep(2)
-        process = subprocess.Popen("eog -f outputs/"+last, shell=True, stdout=subprocess.PIPE)
+        process = subprocess.Popen("eog -f outputs/"+lastfile, shell=True, stdout=subprocess.PIPE)
     except :
         pass
 
