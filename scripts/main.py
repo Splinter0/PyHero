@@ -120,11 +120,11 @@ def launch(command, passwd, camera):
     else :
         print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Wrong command\r\n")
         valid = False
+    global close
+    close = False
     if valid == True: ##LAUNCH THE COMMAND
         if passwd :  ##THIS IS FOR GOPRO2/3/3+
             try :
-                global close
-                close = False
                 tm = threading.Thread(target=timer)
                 tm.start()   ## START THE TIMER
                 urllib2.urlopen(df+par1+"/"+par2+p1+passwd+p2+opt)
@@ -137,8 +137,6 @@ def launch(command, passwd, camera):
                 cc.start()
         else :
             try :  #AND THIS FOR ALL THE OTHERS
-                global close
-                close = False
                 tm = threading.Thread(target=timer)
                 tm.start()   ## START THE TIMER
                 urllib2.urlopen(par1)
