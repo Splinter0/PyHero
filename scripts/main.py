@@ -42,61 +42,61 @@ def launch(command, passwd, camera):
     elif command == "off":
         par1, par2, opt = commands.off(passwd, camera)
     elif command == "shoot":
-        par1, par2, opt = commands.shut()
+        par1, par2, opt = commands.shut(passwd, camera)
     elif command == "stop_rec":
-        par1, par2, opt = commands.stop()
+        par1, par2, opt = commands.stop(passwd, camera)
     elif command == "no_leds":
-        par1, par2, opt = commands.no_leds()
+        par1, par2, opt = commands.no_leds(passwd, camera)
     elif command == "preview_on":
-        par1, par2, opt = commands.prev_on()
+        par1, par2, opt = commands.prev_on(passwd, camera)
     elif command == "preview_off":
-        par1, par2, opt = commands.prev_off()
+        par1, par2, opt = commands.prev_off(passwd, camera)
     elif command == "video":
-        par1, par2, opt = commands.video_mode()
+        par1, par2, opt = commands.video_mode(passwd, camera)
     elif command == "photo":
-        par1, par2, opt = commands.photo_mode()
+        par1, par2, opt = commands.photo_mode(passwd, camera)
     elif command == "brust":
-        par1, par2, opt = commands.brust_mode()
+        par1, par2, opt = commands.brust_mode(passwd, camera)
     elif command == "timelapse":
-        par1, par2, opt = commands.timelapse_mode()
+        par1, par2, opt = commands.timelapse_mode(passwd, camera)
     elif command == "timer":
-        par1, par2, opt = commands.timer_mode()
+        par1, par2, opt = commands.timer_mode(passwd, camera)
     elif command == "play_hdmi":
-        par1, par2, opt = commands.play_hdmi()
+        par1, par2, opt = commands.play_hdmi(passwd, camera)
     elif command == "orientation_up":
-        par1, par2, opt = commands.or_up()
+        par1, par2, opt = commands.or_up(passwd, camera)
     elif command == "orientation_down":
-        par1, par2, opt = commands.or_down()
+        par1, par2, opt = commands.or_down(passwd, camera)
     elif command == "fov_wide":
-        par1, par2, opt = commands.fov_wide()
+        par1, par2, opt = commands.fov_wide(passwd, camera)
     elif command == "fov_medium":
-        par1, par2, opt = commands.fov_med()
+        par1, par2, opt = commands.fov_med(passwd, camera)
     elif command == "fov_narrow":
-        par1, par2, opt = commands.fov_nar()
+        par1, par2, opt = commands.fov_nar(passwd, camera)
     elif command == "mute":
-        par1, par2, opt = commands.no_vol()
+        par1, par2, opt = commands.no_vol(passwd, camera)
     elif command == "volume_70":
-        par1, par2, opt = commands.vol_70()
+        par1, par2, opt = commands.vol_70(passwd, camera)
     elif command == "volume_100":
-        par1, par2, opt = commands.vol_100()
+        par1, par2, opt = commands.vol_100(passwd, camera)
     elif command == "protune_on":
-        par1, par2, opt = commands.pro_on()
+        par1, par2, opt = commands.pro_on(passwd, camera)
     elif command == "protune_off":
-        par1, par2, opt = commands.pro_off()
+        par1, par2, opt = commands.pro_off(passwd, camera)
     elif command == "2_leds":
-        par1, par2, opt = commands.leds2()
+        par1, par2, opt = commands.leds2(passwd, camera)
     elif command == "4_leds":
-        par1, par2, opt = commands.leds4()
+        par1, par2, opt = commands.leds4(passwd, camera)
     elif command.startswith("autopoweroff"):
         command = command.strip("autopoweroff ")
         if command == "nev":
-            par1, par2, opt = commands.autoN()
+            par1, par2, opt = commands.autoN(passwd, camera)
         elif command == "60s":
-            par1, par2, opt = commands.auto60()
+            par1, par2, opt = commands.auto60(passwd, camera)
         elif command == "120s":
-            par1, par2, opt = commands.auto120()
+            par1, par2, opt = commands.auto120(passwd, camera)
         elif command == "300s":
-            par1, par2, opt = commands.auto300()
+            par1, par2, opt = commands.auto300(passwd, camera)
         else :
             print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Use : autopoweroff \"option\" (run \"help\" to see the options)\r\n")
             valid = False
@@ -155,6 +155,7 @@ def connect():
         -SECOND LAUNCHES THE detect() FUNCTION TO FIND WHAT TYPE OF GOPRO YOU'RE USING
         -THIRD IF THE CAMERA IS AN HERO3/3+/2 MEANS THAT IT NEEDS A PASSWORD OTHERWISE CHECK IF THE CAMERA
             IS A GOPRO4 Session AND IF IT IS THE PROGRAM HAS TO LAUNCH THE wake() FUNCTION IN ORDER TO INTERACT WITH IT"""
+
     global close
     close = False
     print("[" + extra.colors.yellow + ".." + extra.colors.end + "] Checking if you are connected to a GoPro")
@@ -173,10 +174,12 @@ def connect():
         mac = getMac()
         if camera == "HERO4 Session":
             wake(camera)
-        else : pass
+        else:
+            pass
         print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Dropping the shell...\r\n")
         return(passReq, camera)
-    while True :
+
+    while passReq == True :
         print("[" + extra.colors.yellow + ".." + extra.colors.end + "] Gathering the password")
         time.sleep(0.5)
         try :
