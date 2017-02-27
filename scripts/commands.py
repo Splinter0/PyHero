@@ -389,17 +389,17 @@ def stealth_off(passwd):
     time.sleep(1.5)
 
     print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Stealth mode deactivated successfully\r\n")
-def getLast(passwd):
+def getLast(passwd, camera):
     df = "http://10.5.5.9/" #DEFAULT PARTS
     p1 = "?t="
     p2 = "&p=%"
 
-    par1, par2, opt = photo_mode() #MOVING TO PHOTO MODE
+    par1, par2, opt = photo_mode(passwd, camera) #MOVING TO PHOTO MODE
     urllib2.urlopen(df + par1 + "/" + par2 + p1 + passwd + p2 + opt)
     time.sleep(1)
 
     print("\n\r[" + extra.colors.yellow + ".." + extra.colors.end + "] Taking a pic")
-    par1, par2, opt = shut()  #TAKE A PIC
+    par1, par2, opt = shut(passwd, camera)  #TAKE A PIC
     urllib2.urlopen(df + par1 + "/" + par2 + p1 + passwd + p2 + opt)
     time.sleep(2)
 

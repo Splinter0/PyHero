@@ -101,7 +101,7 @@ def launch(command, passwd, camera):
             print("\r\n["+extra.colors.red+"-"+extra.colors.end+"] Use : autopoweroff \"option\" (run \"help\" to see the options)\r\n")
             valid = False
     elif command == "shoot&get":
-        commands.getLast(passwd)
+        commands.getLast(passwd, camera)
         valid = False
     elif command == "stealth_mode":
         commands.stealth_mode(passwd)
@@ -170,12 +170,11 @@ def connect():
     if passReq == True:
         pass
     else :
+        print(passReq)
         global mac
         mac = getMac()
         if camera == "HERO4 Session":
             wake(camera)
-        else:
-            pass
         print("\r\n[" + extra.colors.green + "+" + extra.colors.end + "] Dropping the shell...\r\n")
         return(passReq, camera)
 
